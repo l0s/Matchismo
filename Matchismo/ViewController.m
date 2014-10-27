@@ -15,11 +15,10 @@
 
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UILabel *counterLabel;
-@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
 @property (nonatomic) int draws;
-@property (nonatomic) int flipCount;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @end
 
@@ -51,41 +50,49 @@
 }
 
 - (IBAction)tapCard:(UIButton *)sender forEvent:(UIEvent *)event {
-    if( sender.currentTitle.length )
+    [ self.game chooseCardAtIndex:[ self.cardButtons indexOfObject:sender ] ];
+    [ self updateUi ];
+}
+
+- (void) updateUi
+{
+    for( UIButton *button in self.cardButtons )
     {
-        // switch to back
-        [ sender setBackgroundImage:[ UIImage imageNamed:@"back" ]
-                           forState:UIControlStateNormal ];
-        sender.opaque = NO;
-        sender.backgroundColor = [ UIColor clearColor ];
-        [ sender setTitle:nil forState:UIControlStateNormal ];
-        self.flipCount++;
+        NSUInteger index = [ self.cardButtons indexOfObject:button ];
+        Card *card = [ self.game cardAtIndex:index ];
+        [ self updateButton:button ForCard:card ];
+    }
+    self.scoreLabel.text =
+        [ NSString stringWithFormat:@"Score: %ld", self.game.score ];
+}
+
+- (void) updateButton: (UIButton *) button ForCard: (Card *) card
+{
+    if( card.isChosen )
+    {
+        // switch to front
+        button.opaque = YES;
+        button.backgroundColor = [ UIColor whiteColor ];
+        [ button setBackgroundImage:nil forState:UIControlStateNormal ];
+        [ button setTitle:card.value forState:UIControlStateNormal ];
+        [ button setTitleColor:card.color == Black
+                               ? [ UIColor blackColor ]
+                               : [ UIColor redColor ]
+                      forState:UIControlStateNormal ];
+
     }
     else
     {
-        Card *card = [ self.deck drawRandomCard ];
-        if( card )
-        {
-            // switch to front
-            [ sender setBackgroundImage:nil
-                               forState:UIControlStateNormal ];
-            sender.opaque = YES;
-            sender.backgroundColor = [ UIColor whiteColor ];
-            [ sender setTitleColor:[ card color ] == Black
-                                   ? [ UIColor blackColor ]
-                                   : [ UIColor redColor ]
-                          forState:UIControlStateNormal ];
-            [ sender setTitle:card.value
-                     forState:UIControlStateNormal ];
-            self.draws++;
-            self.flipCount++;
-        }
+        // switch to back
+        button.opaque = NO;
+        button.backgroundColor = [ UIColor clearColor ];
+        [ button setBackgroundImage:[ UIImage imageNamed:@"back" ]
+                           forState:UIControlStateNormal ];
+        [ button setTitle:nil forState:UIControlStateNormal ];
+        [ button setTitleColor:nil
+                      forState:UIControlStateNormal ];
     }
-}
-
-- (IBAction)shuffle:(id)sender {
-    self.deck = [ [ PlayingCardDeck alloc ] init ];
-    self.draws = 0;
+    button.enabled = !card.isMatched;
 }
 
 - (Deck *) deck
@@ -95,13 +102,6 @@
         _deck = [ [ PlayingCardDeck alloc ] init ];
     }
     return _deck;
-}
-
-- (void) setFlipCount:(int)flipCount
-{
-    _flipCount = flipCount;
-    self.flipsLabel.text =
-        [ NSString stringWithFormat:@"Flips: %d", flipCount ];
 }
 
 @end

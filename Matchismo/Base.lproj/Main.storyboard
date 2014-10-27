@@ -124,12 +124,6 @@
                                     <action selector="tapCard:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="CoW-C5-NY2"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Flips: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="icb-YP-5bn">
-                                <rect key="frame" x="16" y="626" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLQ-Dg-a8z">
                                 <rect key="frame" x="16" y="388" width="80" height="112"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -166,13 +160,19 @@
                                     <action selector="tapCard:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="X5J-pc-RhU"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FhU-lI-1ao">
+                                <rect key="frame" x="16" y="523" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="flipsLabel" destination="icb-YP-5bn" id="C3N-Bn-hHZ"/>
+                        <outlet property="scoreLabel" destination="FhU-lI-1ao" id="q9q-wk-pvH"/>
                         <outletCollection property="cardButtons" destination="rj8-Ar-dJw" id="Rsa-PM-FQt"/>
                         <outletCollection property="cardButtons" destination="nsI-IB-kbU" id="2dw-DO-zZ4"/>
                         <outletCollection property="cardButtons" destination="H5U-ik-ESE" id="blN-PG-E4t"/>

@@ -13,6 +13,7 @@
 
 @interface CardMatchingGame()
 
+@property (nonatomic, readonly) NSUInteger playableCards;
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
 @property (nonatomic, readonly) Deck *deck;
@@ -27,8 +28,11 @@
     self = [ super init ];
     if( self )
     {
-        NSAssert(deck != nil, @"deck cannot be nil");
+        NSAssert( deck != nil, @"deck cannot be nil" );
+        NSAssert( playableCards <= deck.numCards,
+                  @"Deck %@ has fewer than %ld cards.", deck, playableCards );
         _deck = deck;
+        _playableCards = playableCards;
     }
     return self;
 }
@@ -39,10 +43,9 @@
     {
         // FIXME should synchronise instead of use temp variable
         Deck *deck = self.deck;
-        NSInteger numCards = deck.numCards;
         NSMutableArray *temp =
-            [ [ NSMutableArray alloc ] initWithCapacity:numCards ];
-        for( NSInteger i = numCards; --i >= 0; )
+            [ [ NSMutableArray alloc ] initWithCapacity:self.playableCards ];
+        for( NSInteger i = self.playableCards; --i >= 0; )
         {
             Card *card = [ deck drawRandomCard ];
             if( card )
@@ -51,9 +54,9 @@
             }
             else
             {
-                NSLog( @"Deck %@ had fewer cards than it claimed to have (%ld).",
+                NSLog( @"Deck %@ has fewer than %ld cards remaining.",
                       deck,
-                      numCards );
+                      self.playableCards );
                 return nil;
             }
         }
