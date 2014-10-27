@@ -20,6 +20,7 @@
 		07AD9CC119F0EA24001BEBB2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBF19F0EA24001BEBB2 /* LaunchScreen.xib */; };
 		07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */; };
 		07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */; };
+		07C4ACB319FDC367001A6712 /* CardTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C4ACB219FDC367001A6712 /* CardTestCase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		07AD9CCB19F0EA24001BEBB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchismoTests.m; sourceTree = "<group>"; };
 		07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardTestCase.m; sourceTree = "<group>"; };
+		07C4ACB219FDC367001A6712 /* CardTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTestCase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */,
 				07AD9CCA19F0EA24001BEBB2 /* Supporting Files */,
 				07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */,
+				07C4ACB219FDC367001A6712 /* CardTestCase.m */,
 			);
 			path = MatchismoTests;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07C4ACB319FDC367001A6712 /* CardTestCase.m in Sources */,
 				07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */,
 				07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */,
 			);
