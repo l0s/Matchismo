@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "PlayingCard.h"
+
 @interface PlayingCardTestCase : XCTestCase
+
+@property (nonatomic, strong) PlayingCard *card;
 
 @end
 
@@ -17,24 +21,64 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.card = [ PlayingCard alloc ];
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    self.card = nil;
+
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void) testNumValidSuits
+{
+    // given
+    NSUInteger expected = 4;
+    
+    // when
+    NSUInteger actual = [ PlayingCard validSuits ].count;
+
+    // then
+    XCTAssertEqual(actual, expected);
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void) testNumValidRanks
+{
+    // given
+    NSUInteger expected = 13;
+
+    // when
+    NSUInteger actual = [ PlayingCard maxRank ];
+
+    // then
+    XCTAssertEqual(actual, expected);
+}
+
+- (void) testInitSuit
+{
+    // given
+    
+
+    // when
+    PlayingCard *result =
+        [ self.card initWithRank:7 andSuit:@"♣︎" ];
+
+    // then
+    XCTAssertEqualObjects(result.suit, @"♣︎");
+}
+
+- (void) testInitRank
+{
+    // given
+    
+    
+    // when
+    PlayingCard *result =
+        [ self.card initWithRank:11 andSuit:@"♣︎" ];
+    
+    // then
+    XCTAssertEqualObjects(result.rankString, @"J");
 }
 
 @end
