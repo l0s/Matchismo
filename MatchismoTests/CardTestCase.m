@@ -39,6 +39,8 @@
 }
 
 - (void) tearDown {
+    self.card = nil;
+
     [ super tearDown ];
 }
 
