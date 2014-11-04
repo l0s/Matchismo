@@ -10,7 +10,7 @@
 
 @interface Deck()
 
-@property (strong, readonly) NSMutableArray *cards;
+@property (strong, readwrite) NSMutableArray *cards; // of Card
 
 @end
 
@@ -37,9 +37,15 @@
 {
     if( !_cards )
     {
-        _cards = [ [ NSMutableArray alloc ] init ];
+        [ self setCards:[ [ NSMutableArray alloc ] init ] ];
     }
     return _cards;
+}
+
+- (void)setCards:(NSMutableArray *)cards
+{
+    NSAssert( cards != nil, @"cards cannot be nil" );
+    _cards = cards;
 }
 
 - (NSInteger) numCards

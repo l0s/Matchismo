@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0732FBAD19F624FF001268EF /* CardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 0732FBAC19F624FF001268EF /* CardMatchingGame.m */; };
+		07525A091A00B9C500CFF201 /* DeckTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07525A081A00B9C500CFF201 /* DeckTestCase.m */; };
 		076B590219F22B6700072D09 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 076B590119F22B6700072D09 /* Card.m */; };
 		076B590519F22C4400072D09 /* PlayingCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 076B590419F22C4400072D09 /* PlayingCard.m */; };
 		076B590919F2350400072D09 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 076B590819F2350400072D09 /* Deck.m */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		0732FBAB19F624FF001268EF /* CardMatchingGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardMatchingGame.h; sourceTree = "<group>"; };
 		0732FBAC19F624FF001268EF /* CardMatchingGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardMatchingGame.m; sourceTree = "<group>"; };
+		07525A081A00B9C500CFF201 /* DeckTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeckTestCase.m; sourceTree = "<group>"; };
 		076B590019F22B6700072D09 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		076B590119F22B6700072D09 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		076B590319F22C4400072D09 /* PlayingCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCard.h; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				07AD9CCA19F0EA24001BEBB2 /* Supporting Files */,
 				07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */,
 				07C4ACB219FDC367001A6712 /* CardTestCase.m */,
+				07525A081A00B9C500CFF201 /* DeckTestCase.m */,
 			);
 			path = MatchismoTests;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07525A091A00B9C500CFF201 /* DeckTestCase.m in Sources */,
 				07C4ACB319FDC367001A6712 /* CardTestCase.m in Sources */,
 				07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */,
 				07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */,
@@ -418,6 +422,10 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -434,6 +442,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);

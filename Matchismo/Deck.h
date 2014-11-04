@@ -12,7 +12,7 @@
 @interface Deck : NSObject
 {
     @protected
-    NSMutableArray *_cards;
+    NSMutableArray *_cards; // of Card
 }
 
 @property (readonly) NSInteger numCards;
