@@ -11,19 +11,19 @@
 
 #import "PlayingCardDeck.h"
 
-@interface TestPlayingCardDeck : PlayingCardDeck
+@interface PlayingCardDeckTestCasePartialMockDeck : PlayingCardDeck
 
 - (NSMutableArray *) cards;
 
 @end
 
-@implementation TestPlayingCardDeck
+@implementation PlayingCardDeckTestCasePartialMockDeck
 
 @end
 
 @interface PlayingCardDeckTestCase : XCTestCase
 
-@property (strong, nonatomic) TestPlayingCardDeck *deck;
+@property (strong, nonatomic) PlayingCardDeckTestCasePartialMockDeck *deck;
 
 @end
 
@@ -32,7 +32,7 @@
 - (void)setUp {
     [super setUp];
 
-    self.deck = [ [ TestPlayingCardDeck alloc ] init ];
+    self.deck = [ [ PlayingCardDeckTestCasePartialMockDeck alloc ] init ];
 }
 
 - (void)tearDown {

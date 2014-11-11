@@ -12,31 +12,21 @@
 #import "Deck.h"
 #import "Card.h"
 
-@interface TestDeck : Deck
+@interface DeckTestCasePartialMockDeck : Deck
 
 @property (strong, readwrite, nonatomic) NSMutableArray *cards; // of Card
 
 @end
 
-@implementation TestDeck
+@implementation DeckTestCasePartialMockDeck
 
 @synthesize cards;
-
-//- (NSMutableArray *) cards
-//{
-//    return self->_cards;
-//}
-//
-//- (void) setCards:(NSMutableArray *)cards
-//{
-//    self->_cards = cards;
-//}
 
 @end
 
 @interface DeckTestCase : XCTestCase
 
-@property (nonatomic) TestDeck *deck;
+@property (nonatomic) DeckTestCasePartialMockDeck *deck;
 
 @end
 
@@ -45,7 +35,7 @@
 - (void)setUp {
     [super setUp];
 
-    self.deck = [ [ TestDeck alloc ] init ];
+    self.deck = [ [ DeckTestCasePartialMockDeck alloc ] init ];
 }
 
 - (void)tearDown {
