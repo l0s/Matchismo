@@ -107,4 +107,9 @@
     }
 }
 
+- (NSString *)description
+{
+    return [ NSString stringWithFormat:@"( CardMatchingGame: %li, %li )", self.playableCards, self.score ];
+}
+
 @end

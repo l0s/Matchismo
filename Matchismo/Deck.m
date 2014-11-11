@@ -53,4 +53,9 @@
     return [ self.cards count ];
 }
 
+- (NSString *) description
+{
+    return [ NSString stringWithFormat:@"( Deck: %li )", (long)self.numCards ];
+}
+
 @end

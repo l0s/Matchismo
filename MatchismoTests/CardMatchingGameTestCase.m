@@ -50,7 +50,7 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testCorrectCardCount {
     // given
     NSUInteger slotCount = 1;
     Card *card = [ [ Card alloc ] init ];
@@ -65,13 +65,6 @@
 
     // then
     XCTAssertEqual( result, 0 );
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
 }
 
 @end

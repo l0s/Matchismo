@@ -27,4 +27,9 @@
     return retval;
 }
 
+- (NSString *)description
+{
+    return [ NSString stringWithFormat:@"%@, %i, %i", self.value, self.chosen, self.matched ];
+}
+
 @end
