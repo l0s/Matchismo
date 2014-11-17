@@ -58,6 +58,7 @@
 - (int) match:(NSArray *)cards
 {
     int retval = 0;
+    // TODO match multiple cards
     if( [ cards count ] == 1 )
     {
         PlayingCard *other = [ cards firstObject ];

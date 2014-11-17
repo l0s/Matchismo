@@ -10,6 +10,7 @@
 
 #define MISMATCH_PENALTY 2
 #define MATCH_BONUS 4
+#define FLIP_COST 1
 
 @interface CardMatchingGame()
 
@@ -21,6 +22,11 @@
 @end
 
 @implementation CardMatchingGame
+
+- (instancetype) init
+{
+    return nil;
+}
 
 - (instancetype) initWithPlayableCards: (NSUInteger) playableCards
                                andDeck: (Deck *)deck
@@ -98,11 +104,13 @@
                     else
                     {
                         self.score -= MISMATCH_PENALTY;
+                        other.chosen = NO;
                     }
                     break; // can only choose two cards for now
                 }
             }
             card.chosen = YES;
+            self.score -= FLIP_COST;
         }
     }
 }

@@ -13,7 +13,6 @@
 
 @interface ViewController ()
 
-@property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UILabel *counterLabel;
 @property (nonatomic) int draws;
 @property (strong, nonatomic) CardMatchingGame *game;
@@ -28,13 +27,16 @@
 {
     if( !_game )
     {
-        // FIXME instructions indicate to init the game w/ a separate deck
-        // I don't understand
-        _game =
-            [ [ CardMatchingGame alloc ] initWithPlayableCards:self.cardButtons.count
-                                                       andDeck:self.deck ];
+        _game = [ self createGame ];
+        
     }
     return _game;
+}
+
+- (CardMatchingGame *) createGame
+{
+    return [ [ CardMatchingGame alloc ] initWithPlayableCards:self.cardButtons.count
+                                                      andDeck:[ [ PlayingCardDeck alloc ] init ] ];
 }
 
 - (BOOL) shouldAutorotate
@@ -49,8 +51,15 @@
         [ NSString stringWithFormat:@"cards drawn: %d", draws ];
 }
 
-- (IBAction)tapCard:(UIButton *)sender forEvent:(UIEvent *)event {
+- (IBAction)tapCard:(UIButton *)sender forEvent:(UIEvent *)event
+{
     [ self.game chooseCardAtIndex:[ self.cardButtons indexOfObject:sender ] ];
+    [ self updateUi ];
+}
+
+- (IBAction)startNewGame:(UIButton *)sender forEvent:(UIEvent *)event
+{
+    self.game = [ self createGame ];
     [ self updateUi ];
 }
 
@@ -60,13 +69,13 @@
     {
         NSUInteger index = [ self.cardButtons indexOfObject:button ];
         Card *card = [ self.game cardAtIndex:index ];
-        [ self updateButton:button ForCard:card ];
+        [ self updateButton:button forCard:card ];
     }
     self.scoreLabel.text =
         [ NSString stringWithFormat:@"Score: %ld", self.game.score ];
 }
 
-- (void) updateButton: (UIButton *) button ForCard: (Card *) card
+- (void) updateButton: (UIButton *) button forCard: (Card *) card
 {
     if( card.isChosen )
     {
@@ -88,20 +97,11 @@
         button.backgroundColor = [ UIColor clearColor ];
         [ button setBackgroundImage:[ UIImage imageNamed:@"back" ]
                            forState:UIControlStateNormal ];
-        [ button setTitle:nil forState:UIControlStateNormal ];
+        [ button setTitle:@"" forState:UIControlStateNormal ];
         [ button setTitleColor:nil
                       forState:UIControlStateNormal ];
     }
     button.enabled = !card.isMatched;
-}
-
-- (Deck *) deck
-{
-    if( !_deck )
-    {
-        _deck = [ [ PlayingCardDeck alloc ] init ];
-    }
-    return _deck;
 }
 
 @end
