@@ -89,5 +89,28 @@
     XCTAssertEqualObjects( self.controller.scoreLabel.text, @"Score: 0" );
 }
 
+- (void)testNewGameFlipsCardsOver
+{
+    // given
+    UIButton *buttonX = OCMClassMock( [ UIButton class ] );
+    UIButton *buttonY = OCMClassMock( [ UIButton class ] );
+    UIButton *newGameButton = OCMClassMock( [ UIButton class ] );
+    UIEvent *event = OCMClassMock( [ UIEvent class ] );
+    Card * card = OCMClassMock( [ Card class ] );
+
+    OCMStub( [ self.game cardAtIndex:0 ]).andReturn( card ); // cannot match "any int"
+    OCMStub( [ self.game cardAtIndex:1 ]).andReturn( card );
+
+    self.controller.cardButtons = @[ buttonX, buttonY ];
+
+    // when
+    [ self.controller startNewGame:newGameButton forEvent:event ];
+
+    // then
+    OCMVerify( [ buttonX setTitle:@""
+                         forState:UIControlStateNormal ] );
+    OCMVerify( [ buttonY setTitle:@""
+                         forState:UIControlStateNormal ] );
+}
 
 @end
