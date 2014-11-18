@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import <OCMock/OCMock.h>
+
 #import "CardMatchingGame.h"
 
 @interface CardMatchingGameTestCasePartialMockDeck : Deck
@@ -53,7 +55,7 @@
 - (void)testCorrectCardCount {
     // given
     NSUInteger slotCount = 1;
-    Card *card = [ [ Card alloc ] init ];
+    Card *card = OCMClassMock( [ Card class ] );
     Deck *deck =
         [ [ CardMatchingGameTestCasePartialMockDeck alloc ] initWithCards:[ [ NSMutableArray alloc ] initWithArray:@[ card ] ] ];
     self.game =
