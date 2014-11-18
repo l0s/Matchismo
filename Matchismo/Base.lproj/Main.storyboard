@@ -175,12 +175,20 @@
                                     <action selector="startNewGame:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FDV-kr-5eN"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wgn-bY-Zj0">
+                                <rect key="frame" x="236" y="545" width="123" height="29"/>
+                                <segments>
+                                    <segment title="Two"/>
+                                    <segment title="Three"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="matchTypeSegmentedControl" destination="wgn-bY-Zj0" id="Ukm-Ug-qNa"/>
                         <outlet property="scoreLabel" destination="FhU-lI-1ao" id="q9q-wk-pvH"/>
                         <outletCollection property="cardButtons" destination="rj8-Ar-dJw" id="Rsa-PM-FQt"/>
                         <outletCollection property="cardButtons" destination="nsI-IB-kbU" id="2dw-DO-zZ4"/>

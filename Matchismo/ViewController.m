@@ -9,19 +9,18 @@
 #import "ViewController.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCard.h"
-#import "CardMatchingGame.h"
+
 
 @interface ViewController ()
-
-@property (weak, nonatomic) IBOutlet UILabel *counterLabel;
-@property (nonatomic) int draws;
-@property (strong, nonatomic) CardMatchingGame *game;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @end
 
 @implementation ViewController
+
+- (NSUInteger) cardsToMatch
+{
+    return self.matchTypeSegmentedControl.selectedSegmentIndex + 2;
+}
 
 - (CardMatchingGame *) game
 {
@@ -42,13 +41,6 @@
 - (BOOL) shouldAutorotate
 {
     return NO;
-}
-
-- (void) setDraws:(int)draws
-{
-    _draws = draws;
-    self.counterLabel.text =
-        [ NSString stringWithFormat:@"cards drawn: %d", draws ];
 }
 
 - (IBAction)tapCard:(UIButton *)sender forEvent:(UIEvent *)event
