@@ -95,8 +95,8 @@ static NSPredicate *chosenCardIdentifier;
 
 - (void) chooseCardAtIndex:(NSUInteger)index
 {
-    NSLog( @"Choosing card at index: %lu", index );
     Card *const card = [ self cardAtIndex:index ];
+    NSLog( @"Choosing card: %@ at index %lu", card, index );
     if( !card.isMatched )
     {
         if( card.isChosen )

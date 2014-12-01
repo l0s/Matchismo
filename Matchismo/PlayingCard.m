@@ -74,11 +74,6 @@
     return retval;
 }
 
-- (NSString *) description
-{
-    return [ NSString stringWithFormat:@"( PlayingCard: %@, %@ )", self.rankString, self.suit ];
-}
-
 + (NSArray *) validSuits
 {
     return @[ @"♠︎", @"♦︎", @"♣︎", @"♥︎" ];

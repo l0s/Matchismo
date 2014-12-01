@@ -27,7 +27,8 @@
 
 @implementation ViewControllerTestCase
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
 
     self.game = OCMClassMock( [ CardMatchingGame class ] );
@@ -39,7 +40,8 @@
     self.controller.game = self.game;
 }
 
-- (void)tearDown {
+- (void)tearDown
+{
     self.controller = nil;
 
     [super tearDown];
@@ -73,7 +75,8 @@
     XCTAssertEqual( result, 3 );
 }
 
-- (void)testNewGameClearsScore {
+- (void)testNewGameClearsScore
+{
     // given
     UIButton *button = OCMClassMock( [ UIButton class ] );
     UIEvent *event = OCMClassMock( [ UIEvent class ] );
@@ -111,6 +114,62 @@
                          forState:UIControlStateNormal ] );
     OCMVerify( [ buttonY setTitle:@""
                          forState:UIControlStateNormal ] );
+}
+
+- (void)testTappingCardTurnsItFaceUp
+{
+    // given
+    UIButton* const button = OCMPartialMock( [ [ UIButton alloc ] init ] );
+    self.controller.cardButtons = @[ button ];
+
+    Card* const card = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ self.game cardAtIndex:0 ] ).andReturn( card );
+    OCMStub( [ self.game chooseCardAtIndex:0 ] ).andDo(
+        ^( NSInvocation *invocation )
+        {
+            card.chosen = YES;
+        }
+    );
+
+    // when
+    [ self.controller tapCard:button forEvent:nil ];
+
+    // then
+    OCMVerify( [ self.game chooseCardAtIndex:0 ] );
+    XCTAssertTrue( card.isChosen );
+    XCTAssertTrue( button.opaque );
+    XCTAssertNil( [ button backgroundImageForState:UIControlStateNormal ] );
+    XCTAssertTrue( button.enabled );
+}
+
+- (void)testTappingCardTurnsItFaceDown
+{
+    // given
+    UIButton* const button = OCMPartialMock( [ [ UIButton alloc ] init ] );
+    button.opaque = YES;
+    [ button setBackgroundImage:nil
+                       forState:UIControlStateNormal ];
+    self.controller.cardButtons = @[ button ];
+
+    Card* const card = OCMPartialMock( [ [ Card alloc ] init ] );
+    card.chosen = YES;
+    OCMStub( [ self.game cardAtIndex:0 ] ).andReturn( card );
+    OCMStub( [ self.game chooseCardAtIndex:0 ] ).andDo(
+        ^( NSInvocation *invocation )
+        {
+           card.chosen = NO;
+        }
+    );
+
+    // when
+    [ self.controller tapCard:button forEvent:nil ];
+
+    // then
+    OCMVerify( [ self.game chooseCardAtIndex:0 ] );
+    XCTAssertFalse( card.isChosen );
+    XCTAssertFalse( button.opaque );
+    XCTAssertNotNil( [ button backgroundImageForState:UIControlStateNormal ] );
+    XCTAssertTrue( button.enabled );
 }
 
 @end

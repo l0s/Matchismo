@@ -48,6 +48,7 @@
     NSLog( @"Tapping card button: %@", sender );
     [ self.game chooseCardAtIndex:[ self.cardButtons indexOfObject:sender ] ];
     self.matchTypeSegmentedControl.enabled = NO; // technically only need to do this the first time
+    self.game.cardsToMatch = self.cardsToMatch;
     [ self updateUi ];
 }
 
