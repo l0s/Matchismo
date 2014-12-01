@@ -16,12 +16,27 @@
 
 @property (nonatomic, readonly) NSUInteger playableCards;
 @property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, strong) NSMutableArray *cards; // of Card
+@property (nonatomic, strong) NSArray *cards; // of Card
 @property (nonatomic, readonly) Deck *deck;
 
 @end
 
 @implementation CardMatchingGame
+
+static NSPredicate *chosenCardIdentifier;
+
++(void)initialize
+{
+    static BOOL initialised = NO;
+    if( !initialised )
+    {
+        chosenCardIdentifier =
+            [ NSPredicate predicateWithBlock:^BOOL(Card *otherCard, NSDictionary *bindings) {
+            return otherCard.isChosen && !otherCard.isMatched;
+        }];
+        initialised = YES;
+    }
+}
 
 - (instancetype) init
 {
@@ -43,7 +58,7 @@
     return self;
 }
 
-- (NSMutableArray *) cards
+- (NSArray *) cards
 {
     if( !_cards )
     {
@@ -66,7 +81,7 @@
                 return nil;
             }
         }
-        _cards = temp;
+        _cards = [ temp copy ];
     }
     return _cards;
 }
@@ -80,7 +95,7 @@
 
 - (void) chooseCardAtIndex:(NSUInteger)index
 {
-    Card *card = [ self cardAtIndex:index ];
+    Card *const card = [ self cardAtIndex:index ];
     if( !card.isMatched )
     {
         if( card.isChosen )
@@ -89,24 +104,28 @@
         }
         else
         {
-            // match against other chosen cards
-            for( Card *other in self.cards )
+            NSArray *const otherChosenCards =
+                [ self.cards filteredArrayUsingPredicate:chosenCardIdentifier ];
+            // if the player has chosen enough cards, then calculate match score
+            if( otherChosenCards.count >= self.cardsToMatch - 1 )
             {
-                if( other.isChosen && !other.isMatched )
+                int matchScore = [ card match:otherChosenCards ];
+                if( matchScore )
                 {
-                    int matchScore = [ card match:@[ other ] ];
-                    if( matchScore )
+                    self.score += matchScore * MATCH_BONUS;
+                    for( Card *other in otherChosenCards )
                     {
-                        self.score += matchScore * MATCH_BONUS;
                         other.matched = YES;
-                        card.matched = YES;
                     }
-                    else
+                    card.matched = YES;
+                }
+                else
+                {
+                    self.score -= MISMATCH_PENALTY;
+                    for( Card *other in otherChosenCards )
                     {
-                        self.score -= MISMATCH_PENALTY;
                         other.chosen = NO;
                     }
-                    break; // can only choose two cards for now
                 }
             }
             card.chosen = YES;
@@ -117,7 +136,9 @@
 
 - (NSString *)description
 {
-    return [ NSString stringWithFormat:@"( CardMatchingGame: %li, %li )", self.playableCards, self.score ];
+    return [ NSString stringWithFormat:@"( CardMatchingGame: %li, %li )",
+             self.playableCards,
+             self.score ];
 }
 
 @end

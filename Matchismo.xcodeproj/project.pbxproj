@@ -24,6 +24,8 @@
 		07AD9CBE19F0EA24001BEBB2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBD19F0EA24001BEBB2 /* Images.xcassets */; };
 		07AD9CC119F0EA24001BEBB2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBF19F0EA24001BEBB2 /* LaunchScreen.xib */; };
 		07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */; };
+		07B577411A22D0A500F2833D /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B577401A22D0A500F2833D /* OCHamcrestIOS.framework */; };
+		07B577431A22D0BE00F2833D /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B577421A22D0BE00F2833D /* OCMockitoIOS.framework */; };
 		07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */; };
 		07C4ACB319FDC367001A6712 /* CardTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C4ACB219FDC367001A6712 /* CardTestCase.m */; };
 /* End PBXBuildFile section */
@@ -67,6 +69,8 @@
 		07AD9CC619F0EA24001BEBB2 /* MatchismoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatchismoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AD9CCB19F0EA24001BEBB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchismoTests.m; sourceTree = "<group>"; };
+		07B577401A22D0A500F2833D /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		07B577421A22D0BE00F2833D /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
 		07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardTestCase.m; sourceTree = "<group>"; };
 		07C4ACB219FDC367001A6712 /* CardTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTestCase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +88,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				076369041A1AF4610021B52F /* libOCMock.a in Frameworks */,
+				07B577411A22D0A500F2833D /* OCHamcrestIOS.framework in Frameworks */,
+				07B577431A22D0BE00F2833D /* OCMockitoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +99,8 @@
 		07AD9CA419F0EA24001BEBB2 = {
 			isa = PBXGroup;
 			children = (
+				07B577421A22D0BE00F2833D /* OCMockitoIOS.framework */,
+				07B577401A22D0A500F2833D /* OCHamcrestIOS.framework */,
 				076369031A1AF4610021B52F /* libOCMock.a */,
 				07AD9CAF19F0EA24001BEBB2 /* Matchismo */,
 				07AD9CC919F0EA24001BEBB2 /* MatchismoTests */,
@@ -437,6 +445,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -476,6 +485,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
