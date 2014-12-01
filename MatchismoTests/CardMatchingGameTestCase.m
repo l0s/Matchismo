@@ -58,6 +58,62 @@
     XCTAssertEqual( result, 0 );
 }
 
+- (void)testChooseTwoNonMatchingCardsInTwoCardMatchMode
+{
+    // given none of cards in the game match
+    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck *deck = OCMClassMock( [ Deck class ] );
+    OCMStub( [ deck numCards ] ).andReturn( 2 );
+    OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 0 );
+    OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 0 );
+
+    self.game =
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:2
+                                                                   andDeck:deck ] );
+    self.game.cards = @[ x, y ];
+    self.game.cardsToMatch = 2;
+    
+    // when all three cards are chosen
+    [ self.game chooseCardAtIndex:0 ];
+    [ self.game chooseCardAtIndex:1 ];
+    
+    // then the score should reflect two flips and a mismatch penalty
+    XCTAssertEqual( self.game.score, -2 - 2 );
+    XCTAssertFalse( x.isChosen );
+    XCTAssertTrue( y.isChosen );
+    XCTAssertFalse( x.isMatched );
+    XCTAssertFalse( y.isMatched );
+}
+
+- (void)testChooseTwoMatchingCardsInTwoCardMatchMode
+{
+    // given none of cards in the game match
+    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck *deck = OCMClassMock( [ Deck class ] );
+    OCMStub( [ deck numCards ] ).andReturn( 2 );
+    OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 1 );
+    OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 1 );
+    
+    self.game =
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:2
+                                                                   andDeck:deck ] );
+    self.game.cards = @[ x, y ];
+    self.game.cardsToMatch = 2;
+
+    // when all three cards are chosen
+    [ self.game chooseCardAtIndex:0 ];
+    [ self.game chooseCardAtIndex:1 ];
+
+    // then the score should reflect two flips and a the number of matches x bonus
+    XCTAssertEqual( self.game.score, 1 * 4 - 2 );
+    XCTAssertTrue( x.isChosen );
+    XCTAssertTrue( y.isChosen );
+    XCTAssertTrue( x.isMatched );
+    XCTAssertTrue( y.isMatched );
+}
+
 /*
  "In 3-card-match mode, choosing only 2 cards is never a match."
  */

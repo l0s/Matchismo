@@ -45,13 +45,17 @@
 
 - (IBAction)tapCard:(UIButton *)sender forEvent:(UIEvent *)event
 {
+    NSLog( @"Tapping card button: %@", sender );
     [ self.game chooseCardAtIndex:[ self.cardButtons indexOfObject:sender ] ];
+    self.matchTypeSegmentedControl.enabled = NO; // technically only need to do this the first time
     [ self updateUi ];
 }
 
 - (IBAction)startNewGame:(UIButton *)sender forEvent:(UIEvent *)event
 {
+    NSLog( @"Starting new game." );
     self.game = [ self createGame ];
+    self.matchTypeSegmentedControl.enabled = YES;
     [ self updateUi ];
 }
 
@@ -69,6 +73,7 @@
 
 - (void) updateButton: (UIButton *) button forCard: (Card *) card
 {
+//    NSLog( @"Updating button for card: %@", card );
     if( card.isChosen )
     {
         // switch to front
