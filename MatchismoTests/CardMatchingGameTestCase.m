@@ -29,7 +29,6 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown
@@ -43,8 +42,8 @@
 {
     // given
     NSUInteger slotCount = 1;
-    Card *card = OCMClassMock( [ Card class ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const card = OCMClassMock( [ Card class ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 1 );
     OCMStub( [ deck drawRandomCard ] ).andReturn( card );
     self.game =
@@ -61,9 +60,9 @@
 - (void)testChooseTwoNonMatchingCardsInTwoCardMatchMode
 {
     // given none of cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 2 );
     OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 0 );
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 0 );
@@ -89,9 +88,9 @@
 - (void)testChooseTwoMatchingCardsInTwoCardMatchMode
 {
     // given none of cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 2 );
     OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 1 );
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 1 );
@@ -120,10 +119,10 @@
 - (void)testChooseTwoMatchingCardsInThreeCardMatchMode
 {
     // given all cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *z = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const z = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 3 );
     // note, it is not possible to mock three successive invocations of
     // [ deck drawRandomCard ]
@@ -154,10 +153,10 @@
 - (void)testChooseThreeMatchingCardsInThreeCardMatchMode
 {
     // given all cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *z = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const z = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 3 );
     OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 2 );
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 2 );
@@ -187,10 +186,10 @@
 - (void)testChooseThreeNonMatchingCardsInThreeCardMatchMode
 {
     // given none of cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *z = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const z = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 3 );
     OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 0 );
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 0 );
@@ -226,10 +225,10 @@
 - (void)testChooseTwoOutOfThreeMatchingCardsInThreeCardMatchMode
 {
     // given none of cards in the game match
-    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
-    Card *z = OCMPartialMock( [ [ Card alloc ] init ] );
-    Deck *deck = OCMClassMock( [ Deck class ] );
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const z = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck * const deck = OCMClassMock( [ Deck class ] );
     OCMStub( [ deck numCards ] ).andReturn( 3 );
     OCMStub( [ x match:[ OCMArg any ] ] ).andReturn( 0 );
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 0 );

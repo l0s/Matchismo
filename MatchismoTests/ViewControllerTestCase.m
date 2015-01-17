@@ -38,6 +38,7 @@
     self.controller = [ [ ViewController alloc ] init ];
     self.controller.scoreLabel = self.scoreLabel;
     self.controller.game = self.game;
+    self.controller.matchTypeSegmentedControl = OCMPartialMock( [ [ UISegmentedControl alloc ] init  ] );
 }
 
 - (void)tearDown
@@ -170,6 +171,41 @@
     XCTAssertFalse( button.opaque );
     XCTAssertNotNil( [ button backgroundImageForState:UIControlStateNormal ] );
     XCTAssertTrue( button.enabled );
+}
+
+/* Required Task 4:
+   Disable the game play mode control (i.e. the UISwitch or UISegmentedControl
+   from Required Task 3) when a game starts (i.e. when the first flip of a game
+   happens) */
+- (void)testCannotChangeModeOnceGameStarts
+{
+    // given
+    UIButton* const firstCard = OCMPartialMock( [ [ UIButton alloc ] init ] );
+    self.controller.cardButtons = @[ firstCard ];
+
+    // when
+    [ self.controller startNewGame:nil forEvent:nil ];
+    [ self.controller tapCard:firstCard forEvent:nil ];
+
+    // then
+    XCTAssertFalse( self.controller.matchTypeSegmentedControl.enabled );
+}
+
+/* Required Task 4:
+ Disable the game play mode control (i.e. the UISwitch or UISegmentedControl
+ from Required Task 3) when a game starts (i.e. when the first flip of a game
+ happens) and re-enable it when a re-deal happens (i.e. the Deal button is
+ pressed). */
+- (void)testCanChangeModeBeforeNewGameStarts
+{
+    // given
+    self.controller.matchTypeSegmentedControl.enabled = NO;
+
+    // when
+    [ self.controller startNewGame:nil forEvent:nil ];
+
+    // then
+    XCTAssertTrue( self.controller.matchTypeSegmentedControl.enabled );
 }
 
 @end
