@@ -17,6 +17,18 @@
 
 @implementation ViewController
 
+@synthesize game = _game;
+
+- (void)viewDidLoad
+{
+    self.statusLabel.adjustsFontSizeToFitWidth = YES;
+}
+
+- (void)dealloc
+{
+    [ [ NSNotificationCenter defaultCenter ] removeObserver:self ];
+}
+
 - (NSUInteger) cardsToMatch
 {
     return self.matchTypeSegmentedControl.selectedSegmentIndex + 2;
@@ -26,10 +38,25 @@
 {
     if( !_game )
     {
-        _game = [ self createGame ];
-        
+        [ self setGame:[ self createGame ] ];
     }
     return _game;
+}
+
+- (void) setGame:(CardMatchingGame *)game
+{
+    if( _game )
+    {
+        [ [ NSNotificationCenter defaultCenter ] removeObserver:self name:@"statusUpdated" object:_game ];
+    }
+    if( game )
+    {
+        [ [ NSNotificationCenter defaultCenter ] addObserver:self
+                                                    selector:@selector(updateStatus:)
+                                                        name:@"statusUpdated"
+                                                      object:game ];
+    }
+    _game = game;
 }
 
 - (CardMatchingGame *) createGame
@@ -48,6 +75,7 @@
     NSLog( @"Tapping card button: %@", sender );
     [ self.game chooseCardAtIndex:[ self.cardButtons indexOfObject:sender ] ];
     self.matchTypeSegmentedControl.enabled = NO; // technically only need to do this the first time
+    self.game.cardsToMatch = self.cardsToMatch;
 
     [ self updateUi ];
 }
@@ -55,9 +83,10 @@
 - (IBAction)startNewGame:(UIButton *)sender forEvent:(UIEvent *)event
 {
     NSLog( @"Starting new game." );
+    
     self.game = [ self createGame ];
+
     self.matchTypeSegmentedControl.enabled = YES;
-    self.game.cardsToMatch = self.cardsToMatch;
     self.statusLabel.text = @"Good luck!";
 
     [ self updateUi ];
@@ -102,6 +131,13 @@
                       forState:UIControlStateNormal ];
     }
     button.enabled = !card.isMatched;
+}
+
+- (void) updateStatus: ( NSNotification * const )notification
+{
+    // TODO make diamonds and hearts red
+    self.statusLabel.text =
+        ( ( CardMatchingGame * )notification.object ).lastStatus;
 }
 
 @end

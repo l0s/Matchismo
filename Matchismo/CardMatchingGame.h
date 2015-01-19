@@ -19,5 +19,6 @@
 
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic) NSUInteger cardsToMatch;
+@property (nonatomic, readonly) NSString* lastStatus;
 
 @end

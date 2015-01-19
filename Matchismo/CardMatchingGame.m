@@ -23,6 +23,8 @@
 
 @implementation CardMatchingGame
 
+@synthesize lastStatus = _lastStatus;
+
 static NSPredicate *chosenCardIdentifier;
 
 +(void)initialize
@@ -114,12 +116,18 @@ static NSPredicate *chosenCardIdentifier;
                 if( matchScore )
                 {
                     NSLog( @"Found matches for: %@", card );
-                    self.score += matchScore * MATCH_BONUS;
+                    const int points = matchScore * MATCH_BONUS;
+                    self.score += points;
                     for( Card *other in otherChosenCards )
                     {
                         other.matched = YES;
                     }
                     card.matched = YES;
+                    _lastStatus =
+                        [ NSString stringWithFormat:@"Matched %@ with %@ for %d points.",
+                                                    card.value,
+                                                    [ self displayValues:otherChosenCards ],
+                                                    points ];
                 }
                 else
                 {
@@ -129,12 +137,23 @@ static NSPredicate *chosenCardIdentifier;
                     {
                         other.chosen = NO;
                     }
+                    _lastStatus =
+                        [ NSString stringWithFormat:@"No match between %@ and %@; %d point penalty.",
+                                                    card.value,
+                                                    [ self displayValues:otherChosenCards ],
+                                                    MISMATCH_PENALTY ];
                 }
+                [ [ NSNotificationCenter defaultCenter ] postNotificationName:@"statusUpdated" object:self ];
             }
             card.chosen = YES;
             self.score -= FLIP_COST;
         }
     }
+}
+
+- (NSString *)displayValues: ( NSArray * )cards // of Card
+{
+    return [ [ cards valueForKey:@"value" ] componentsJoinedByString:@" and " ];
 }
 
 - (NSString *)description
