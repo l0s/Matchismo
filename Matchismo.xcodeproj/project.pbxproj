@@ -23,7 +23,6 @@
 		07AD9CBC19F0EA24001BEBB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBA19F0EA24001BEBB2 /* Main.storyboard */; };
 		07AD9CBE19F0EA24001BEBB2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBD19F0EA24001BEBB2 /* Images.xcassets */; };
 		07AD9CC119F0EA24001BEBB2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07AD9CBF19F0EA24001BEBB2 /* LaunchScreen.xib */; };
-		07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */; };
 		07B577411A22D0A500F2833D /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B577401A22D0A500F2833D /* OCHamcrestIOS.framework */; };
 		07B577431A22D0BE00F2833D /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B577421A22D0BE00F2833D /* OCMockitoIOS.framework */; };
 		07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */; };
@@ -68,7 +67,6 @@
 		07AD9CC019F0EA24001BEBB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		07AD9CC619F0EA24001BEBB2 /* MatchismoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatchismoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AD9CCB19F0EA24001BEBB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchismoTests.m; sourceTree = "<group>"; };
 		07B577401A22D0A500F2833D /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		07B577421A22D0BE00F2833D /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
 		07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardTestCase.m; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 		07AD9CC919F0EA24001BEBB2 /* MatchismoTests */ = {
 			isa = PBXGroup;
 			children = (
-				07AD9CCC19F0EA24001BEBB2 /* MatchismoTests.m */,
 				07AD9CCA19F0EA24001BEBB2 /* Supporting Files */,
 				07C4ACB019FC86F7001A6712 /* PlayingCardTestCase.m */,
 				07C4ACB219FDC367001A6712 /* CardTestCase.m */,
@@ -304,7 +301,6 @@
 				07C4ACB319FDC367001A6712 /* CardTestCase.m in Sources */,
 				07C4ACB119FC86F7001A6712 /* PlayingCardTestCase.m in Sources */,
 				079EFF841A087E1C00A29511 /* PlayingCardDeckTestCase.m in Sources */,
-				07AD9CCD19F0EA24001BEBB2 /* MatchismoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

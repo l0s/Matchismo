@@ -8,25 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+
 #import "Card.h"
 
-@interface TestCard : Card
+@interface Card()
 
-@property (strong, readwrite, nonatomic) NSString *value;
+@property (readwrite) NSString *value;
 
-- (void) setValue:(NSString *)value;
-
-@end
-
-@implementation TestCard
-
-@synthesize value = _value;
+- (void)setValue:(NSString *)value;
 
 @end
 
 @interface CardTestCase : XCTestCase
 
-@property (nonatomic, strong) TestCard *card;
+@property (nonatomic, strong) Card *card;
 
 @end
 
@@ -35,7 +31,7 @@
 - (void) setUp {
     [super setUp];
 
-    self.card = [ [ TestCard alloc ] init ];
+    self.card = OCMPartialMock( [ [ Card alloc ] init ] );
 }
 
 - (void) tearDown {
@@ -47,7 +43,7 @@
 - (void) testNoMatchAgainstEmptyArray
 {
     // given
-    self.card.value = @"x";
+    OCMStub( [ self.card value ] ).andReturn( @"x" );
     NSArray *others = @[];
 
     // when
@@ -60,9 +56,9 @@
 - (void) testNoMatchAgainstSingleton
 {
     // given
-    self.card.value = @"x";
-    TestCard *other = [ [ TestCard alloc ] init ];
-    other.value = @"y";
+    OCMStub( [ self.card value ] ).andReturn( @"x" );
+    Card *other = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ other value ] ).andReturn( @"y" );
     NSArray *others = @[ other ];
 
     // when
@@ -75,9 +71,9 @@
 - (void) testMatchAgainstSingleton
 {
     // given
-    self.card.value = @"x";
-    TestCard *other = [ [ TestCard alloc ] init ];
-    other.value = @"x";
+    OCMStub( [ self.card value ] ).andReturn( @"x" );
+    Card *other = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ other value ] ).andReturn( @"x" );
     NSArray *others = @[ other ];
     
     // when
@@ -90,11 +86,11 @@
 - (void) testNoMatchAgainstMultiple
 {
     // given
-    self.card.value = @"value";
-    TestCard *x = [ [ TestCard alloc ] init ];
-    x.value = @"x";
-    TestCard *y = [ [ TestCard alloc ] init ];
-    y.value = @"y";
+    OCMStub( [ self.card value ] ).andReturn( @"value" );
+    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ x value ] ).andReturn( @"x" );
+    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ y value ] ).andReturn( @"y" );
     NSArray *others = @[ x, y ];
 
     // when
@@ -107,11 +103,11 @@
 - (void) testMatchAgainstAny
 {
     // given
-    self.card.value = @"value";
-    TestCard *x = [ [ TestCard alloc ] init ];
-    x.value = @"x";
-    TestCard *y = [ [ TestCard alloc ] init ];
-    y.value = @"value";
+    OCMStub( [ self.card value ] ).andReturn( @"value" );
+    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ x value ] ).andReturn( @"x" );
+    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ y value ] ).andReturn( @"value" );
     NSArray *others = @[ x, y ];
     
     // when
@@ -124,11 +120,11 @@
 - (void) testMatchAgainstAll
 {
     // given
-    self.card.value = @"value";
-    TestCard *x = [ [ TestCard alloc ] init ];
-    x.value = @"value";
-    TestCard *y = [ [ TestCard alloc ] init ];
-    y.value = @"value";
+    OCMStub( [ self.card value ] ).andReturn( @"value" );
+    Card *x = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ x value ] ).andReturn( @"x" );
+    Card *y = OCMPartialMock( [ [ Card alloc ] init ] );
+    OCMStub( [ y value ] ).andReturn( @"value" );
     NSArray *others = @[ x, y ];
     
     // when

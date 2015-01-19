@@ -8,22 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "PlayingCardDeck.h"
 
-@interface PlayingCardDeckTestCasePartialMockDeck : PlayingCardDeck
+@interface PlayingCardDeck()
 
-- (NSMutableArray *) cards;
-
-@end
-
-@implementation PlayingCardDeckTestCasePartialMockDeck
+// expose "cards" for testing purposes
+@property (strong, readonly, nonatomic) NSMutableArray *cards; // of Card
 
 @end
 
 @interface PlayingCardDeckTestCase : XCTestCase
 
-@property (strong, nonatomic) PlayingCardDeckTestCasePartialMockDeck *deck;
+@property (strong, nonatomic) PlayingCardDeck *deck;
 
 @end
 
@@ -32,7 +30,7 @@
 - (void)setUp {
     [super setUp];
 
-    self.deck = [ [ PlayingCardDeckTestCasePartialMockDeck alloc ] init ];
+    self.deck = OCMPartialMock( [ [ PlayingCardDeck alloc ] init ] );
 }
 
 - (void)tearDown {
