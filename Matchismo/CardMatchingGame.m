@@ -18,11 +18,13 @@
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSArray *cards; // of Card
 @property (nonatomic, readonly) Deck *deck;
+@property (nonatomic, readonly) NSNotificationCenter *notificationCenter;
 
 @end
 
 @implementation CardMatchingGame
 
+@synthesize notificationCenter = _notificationCenter;
 @synthesize lastStatus = _lastStatus;
 
 static NSPredicate *chosenCardIdentifier;
@@ -48,12 +50,21 @@ static NSPredicate *chosenCardIdentifier;
 - (instancetype) initWithPlayableCards: (NSUInteger) playableCards
                                andDeck: (Deck *)deck
 {
+    return [ self initWithNotificationCenter:[ NSNotificationCenter defaultCenter ] andPlayableCards:playableCards andDeck:deck ];
+}
+
+- (instancetype) initWithNotificationCenter:(NSNotificationCenter *)notificationCenter
+                           andPlayableCards:(NSUInteger)playableCards
+                                    andDeck:(Deck *)deck
+{
     self = [ super init ];
     if( self )
     {
+        NSAssert( notificationCenter != nil, @"notificationCenter cannot be nil" );
         NSAssert( deck != nil, @"deck cannot be nil" );
         NSAssert( playableCards <= deck.numCards,
-                  @"Deck %@ has fewer than %ld cards.", deck, playableCards );
+                 @"Deck %@ has fewer than %ld cards.", deck, playableCards );
+        _notificationCenter = notificationCenter;
         _deck = deck;
         _playableCards = playableCards;
     }

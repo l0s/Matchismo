@@ -11,14 +11,20 @@
 
 @interface CardMatchingGame : NSObject
 
-// designated initialiser
+// designated initialisers
 - (instancetype) initWithPlayableCards: (NSUInteger)playableCards
                                andDeck: (Deck *) deck;
+- (instancetype) initWithNotificationCenter: (NSNotificationCenter *) notificationCenter
+                           andPlayableCards: (NSUInteger)playableCards
+                                    andDeck: (Deck *)deck;
+
 - (void) chooseCardAtIndex: (NSUInteger) index;
 - (Card *) cardAtIndex: (NSUInteger) index;
 
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic) NSUInteger cardsToMatch;
+
+// FIXME this should be a struct with cards, boolean, and points
 @property (nonatomic, readonly) NSString* lastStatus;
 
 @end

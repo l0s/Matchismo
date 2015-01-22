@@ -21,6 +21,7 @@
 
 @interface CardMatchingGameTestCase : XCTestCase
 
+@property (strong, nonatomic) NSNotificationCenter *center;
 @property (strong, nonatomic) CardMatchingGame *game;
 
 @end
@@ -29,10 +30,13 @@
 
 - (void)setUp {
     [super setUp];
+    
+    self.center = OCMClassMock( [ NSNotificationCenter class ] );
 }
 
 - (void)tearDown
 {
+    self.center = nil;
     self.game = nil;
 
     [super tearDown];
@@ -47,8 +51,9 @@
     OCMStub( [ deck numCards ] ).andReturn( 1 );
     OCMStub( [ deck drawRandomCard ] ).andReturn( card );
     self.game =
-        [ [ CardMatchingGame alloc ] initWithPlayableCards:slotCount
-                                                   andDeck:deck ];
+        [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                               andPlayableCards:slotCount
+                                                        andDeck:deck ];
 
     // when
     NSInteger result = self.game.score;
@@ -68,8 +73,9 @@
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 0 );
 
     self.game =
-        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:2
-                                                                   andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:2
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y ];
     self.game.cardsToMatch = 2;
     
@@ -96,8 +102,9 @@
     OCMStub( [ y match:[ OCMArg any ] ] ).andReturn( 1 );
     
     self.game =
-        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:2
-                                                                   andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:2
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y ];
     self.game.cardsToMatch = 2;
 
@@ -131,8 +138,9 @@
     OCMStub( [ z match:[ OCMArg any ] ] ).andReturn( 1 );
 
     self.game =
-        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:3
-                                                                   andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:3
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y, z ];
     self.game.cardsToMatch = 3;
 
@@ -163,8 +171,9 @@
     OCMStub( [ z match:[ OCMArg any ] ] ).andReturn( 2 );
     
     self.game =
-        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:3
-                                                                   andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:3
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y, z ];
     self.game.cardsToMatch = 3;
 
@@ -196,8 +205,9 @@
     OCMStub( [ z match:[ OCMArg any ] ] ).andReturn( 0 );
     
     self.game =
-    OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:3
-                                                               andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:3
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y, z ];
     self.game.cardsToMatch = 3;
     
@@ -235,8 +245,9 @@
     OCMStub( [ z match:[ OCMArg any ] ] ).andReturn( 1 );
     
     self.game =
-    OCMPartialMock( [ [ CardMatchingGame alloc ] initWithPlayableCards:3
-                                                               andDeck:deck ] );
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:3
+                                                                        andDeck:deck ] );
     self.game.cards = @[ x, y, z ];
     self.game.cardsToMatch = 3;
     
