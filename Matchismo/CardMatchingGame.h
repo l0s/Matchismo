@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Deck.h"
+#import "Move.h"
 
 @interface CardMatchingGame : NSObject
 
@@ -25,6 +26,7 @@
 @property (nonatomic) NSUInteger cardsToMatch;
 
 // FIXME this should be a struct with cards, boolean, and points
-@property (nonatomic, readonly) NSString* lastStatus;
+@property (strong, nonatomic, readonly) NSString* lastStatus;
+@property (strong, nonatomic, readonly) Move* lastMove;
 
 @end

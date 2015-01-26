@@ -266,4 +266,31 @@
     XCTAssertTrue( z.isMatched );
 }
 
+- (void)testChooseCardAtIndexNotifiesListeners
+{
+    // given
+    Card * const x = OCMPartialMock( [ [ Card alloc ] init ] );
+    Card * const y = OCMPartialMock( [ [ Card alloc ] init ] );
+    Deck* const deck = OCMClassMock( [ Deck class ] );
+    OCMStub( [ deck numCards ] ).andReturn( 2 );
+
+    self.game =
+        OCMPartialMock( [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.center
+                                                               andPlayableCards:2
+                                                                        andDeck:deck ] );
+    self.game.cards = @[ x, y ];
+    self.game.cardsToMatch = 2;
+    XCTAssertNil( self.game.lastMove );
+
+    // when
+    [ self.game chooseCardAtIndex:0 ];
+    [ self.game chooseCardAtIndex:1 ];
+
+    // then
+    Move* const lastMove = self.game.lastMove;
+    XCTAssertNotNil( lastMove );
+    XCTAssertTrue( [ lastMove.cards indexOfObject:x ] >= 0 );
+    XCTAssertTrue( [ lastMove.cards indexOfObject:y ] >= 0 );
+}
+
 @end

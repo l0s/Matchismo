@@ -8,6 +8,7 @@
 
 #import "CardMatchingGame.h"
 
+// FIXME use constants file
 #define MISMATCH_PENALTY 2
 #define MATCH_BONUS 4
 #define FLIP_COST 1
@@ -20,12 +21,11 @@
 @property (nonatomic, readonly) Deck *deck;
 @property (nonatomic, readonly) NSNotificationCenter *notificationCenter;
 @property (nonatomic, strong, readonly) dispatch_queue_t cardSettingQueue;
+@property (strong, nonatomic, readwrite) Move* lastMove;
 
 @end
 
 @implementation CardMatchingGame
-
-//@synthesize lastStatus = _lastStatus;
 
 static NSPredicate *chosenCardIdentifier;
 
@@ -149,7 +149,10 @@ static NSPredicate *chosenCardIdentifier;
                                                     [ self displayValues:otherChosenCards ],
                                                     MISMATCH_PENALTY ];
                 }
-                [ [ NSNotificationCenter defaultCenter ] postNotificationName:@"statusUpdated" object:self ];
+                self.lastMove = [ [ Move alloc ] initWithCards:otherChosenCards ];
+                // FIXME constant for notification name
+                [ [ NSNotificationCenter defaultCenter ] postNotificationName:@"statusUpdated"
+                                                                       object:self ];
             }
             card.chosen = YES;
             self.score -= FLIP_COST;
