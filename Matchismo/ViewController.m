@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Carlos Macasaet. All rights reserved.
 //
 
+#import <CoreText/CoreText.h>
+
 #import "ViewController.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCard.h"
@@ -13,11 +15,23 @@
 
 @interface ViewController ()
 
+@property (strong, nonatomic) NSNotificationCenter* notificationCenter;
+
 @end
 
 @implementation ViewController
 
 @synthesize game = _game;
+@synthesize notificationCenter = _notificationCenter;
+
+- (NSNotificationCenter *)notificationCenter
+{
+    if( !_notificationCenter )
+    {
+        _notificationCenter = [ NSNotificationCenter defaultCenter ];
+    }
+    return _notificationCenter;
+}
 
 - (void)viewDidLoad
 {
@@ -26,7 +40,7 @@
 
 - (void)dealloc
 {
-    [ [ NSNotificationCenter defaultCenter ] removeObserver:self ];
+    [ self.notificationCenter removeObserver:self ];
 }
 
 - (NSUInteger) cardsToMatch
@@ -47,24 +61,25 @@
 {
     if( _game )
     {
-        [ [ NSNotificationCenter defaultCenter ] removeObserver:self
-                                                           name:MoveMadeNotification
-                                                         object:_game ];
+        [ self.notificationCenter removeObserver:self
+                                            name:MoveMadeNotification
+                                          object:_game ];
     }
     if( game )
     {
-        [ [ NSNotificationCenter defaultCenter ] addObserver:self
-                                                    selector:@selector(updateStatus:)
-                                                        name:MoveMadeNotification
-                                                      object:game ];
+        [ self.notificationCenter addObserver:self
+                                     selector:@selector(updateStatus:)
+                                         name:MoveMadeNotification
+                                       object:game ];
     }
     _game = game;
 }
 
 - (CardMatchingGame *) createGame
 {
-    return [ [ CardMatchingGame alloc ] initWithPlayableCards:self.cardButtons.count
-                                                      andDeck:[ [ PlayingCardDeck alloc ] init ] ];
+    return [ [ CardMatchingGame alloc ] initWithNotificationCenter:self.notificationCenter
+                                                  andPlayableCards:self.cardButtons.count
+                                                           andDeck:[ [ PlayingCardDeck alloc ] init ] ];
 }
 
 - (BOOL) shouldAutorotate
@@ -89,7 +104,8 @@
     self.game = [ self createGame ];
 
     self.matchTypeSegmentedControl.enabled = YES;
-    self.statusLabel.text = @"Good luck!";
+    self.statusLabel.attributedText =
+        [ [ NSAttributedString alloc ] initWithString:@"Good luck!" ]; // TODO constant?
 
     [ self updateUi ];
 }
@@ -137,9 +153,36 @@
 
 - (void) updateStatus: ( NSNotification * const )notification
 {
-    // TODO make diamonds and hearts red
-    self.statusLabel.text =
-        ( ( CardMatchingGame * )notification.object ).lastStatus;
+    self.statusLabel.attributedText =
+        [ self createStatusText:( ( CardMatchingGame * )notification.object ).lastMove ];
+}
+
+- (NSAttributedString *) createStatusText: (Move *)move
+{
+    NSString* const template =
+        move.matchFound
+        ? @"Match between %@ for %d points."
+        : @"No match between %@; %d point penalty.";
+    NSString* const statusText =
+        [ NSString stringWithFormat:template,
+                                    [ [ move.cards valueForKey:@"value" ] componentsJoinedByString:@" and " ],
+                                    move.moveScore ];
+
+    NSMutableAttributedString* const retval =
+        [ [ NSMutableAttributedString alloc ] initWithString:statusText ];
+    [ retval beginEditing ];
+    for( unsigned int i = 0; i < statusText.length; i++ )
+    {
+        const unichar character = [ statusText characterAtIndex:i ];
+        if( character == 0x2665 || character == 0x2666 )
+        {
+            [ retval addAttribute:NSForegroundColorAttributeName
+                            value:[ UIColor redColor ]
+                            range:NSMakeRange( i, 1 ) ];
+        }
+    }
+    [ retval endEditing ];
+    return retval;
 }
 
 @end

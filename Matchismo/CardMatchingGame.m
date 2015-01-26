@@ -147,8 +147,8 @@ static NSPredicate *chosenCardIdentifier;
                 }
                 self.lastMove =
                     [ [ Move alloc ] initWithCards:[ otherChosenCards arrayByAddingObject:card ] ];
-                [ [ NSNotificationCenter defaultCenter ] postNotificationName:MoveMadeNotification
-                                                                       object:self ];
+                [ self.notificationCenter postNotificationName:MoveMadeNotification
+                                                        object:self ];
             }
             card.chosen = YES;
             self.score -= FlipCost;

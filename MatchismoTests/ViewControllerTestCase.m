@@ -13,13 +13,23 @@
 #import "ViewController.h"
 #import "CardMatchingGame.h"
 
+@interface ViewController()
+
+@property (strong, nonatomic) NSNotificationCenter* notificationCenter;
+// TODO can we use an injected Notification Center to avoid revealing this method?
+- (void) updateStatus: ( NSNotification * const )notification;
+
+@end
+
 @interface ViewControllerTestCase : XCTestCase
 
 // mocks
 @property (strong, nonatomic) CardMatchingGame *game;
+@property (strong, nonatomic) NSNotificationCenter *notificationCenter;
 
 // actual implementations
 @property (strong, nonatomic) UILabel *scoreLabel;
+@property (strong, nonatomic) UILabel *statusLabel;
 
 @property (strong, nonatomic) ViewController *controller;
 
@@ -32,13 +42,18 @@
     [super setUp];
 
     self.game = OCMClassMock( [ CardMatchingGame class ] );
+    self.notificationCenter = OCMClassMock( [ NSNotificationCenter class ] );
 
     self.scoreLabel = [ [ UILabel alloc ] init ];
+    self.statusLabel = [ [ UILabel alloc ] init ];
 
     self.controller = [ [ ViewController alloc ] init ];
+    self.controller.notificationCenter = self.notificationCenter;
     self.controller.scoreLabel = self.scoreLabel;
+    self.controller.statusLabel = self.statusLabel;
     self.controller.game = self.game;
-    self.controller.matchTypeSegmentedControl = OCMPartialMock( [ [ UISegmentedControl alloc ] init  ] );
+    self.controller.matchTypeSegmentedControl =
+        OCMPartialMock( [ [ UISegmentedControl alloc ] init  ] );
 }
 
 - (void)tearDown
@@ -206,6 +221,28 @@
 
     // then
     XCTAssertTrue( self.controller.matchTypeSegmentedControl.enabled );
+}
+
+- (void)testUpdateStatus
+{
+    // given
+    Move* const move = OCMClassMock( [ Move class ] );
+    OCMStub( [ self.game lastMove ] ).andReturn( move );
+    NSNotification* const notification =
+        OCMClassMock( [ NSNotification class ] );
+    OCMStub( [ notification object ] ).andReturn( self.game );
+
+    [ self.controller startNewGame:nil forEvent:nil ];
+    NSString* const initialStatus =
+        self.controller.statusLabel.attributedText.string;
+
+    // when
+    [ self.controller updateStatus:notification ];
+
+    // then
+    // TODO define business logic for status
+    XCTAssertNotEqualObjects( self.controller.statusLabel.attributedText.string,
+                              initialStatus );
 }
 
 @end
