@@ -19,13 +19,13 @@
 @property (nonatomic, strong) NSArray *cards; // of Card
 @property (nonatomic, readonly) Deck *deck;
 @property (nonatomic, readonly) NSNotificationCenter *notificationCenter;
+@property (nonatomic, strong, readonly) dispatch_queue_t cardSettingQueue;
 
 @end
 
 @implementation CardMatchingGame
 
-@synthesize notificationCenter = _notificationCenter;
-@synthesize lastStatus = _lastStatus;
+//@synthesize lastStatus = _lastStatus;
 
 static NSPredicate *chosenCardIdentifier;
 
@@ -67,35 +67,30 @@ static NSPredicate *chosenCardIdentifier;
         _notificationCenter = notificationCenter;
         _deck = deck;
         _playableCards = playableCards;
+        _cardSettingQueue =
+            dispatch_queue_create( "com.macasaet.matchismo.model.CardMatchingGame.cardSettingQueue",
+                                   DISPATCH_QUEUE_SERIAL );
     }
     return self;
 }
 
 - (NSArray *) cards
 {
-    if( !_cards )
-    {
-        // FIXME should synchronise instead of using temp variable
-        Deck *const deck = self.deck;
-        NSMutableArray *const temp =
-            [ [ NSMutableArray alloc ] initWithCapacity:self.playableCards ];
-        for( NSInteger i = self.playableCards; --i >= 0; )
+    dispatch_sync( _cardSettingQueue, ^{
+        if( !_cards )
         {
-            Card *card = [ deck drawRandomCard ];
-            if( card )
+            NSMutableArray* const temp =
+                [ [ NSMutableArray alloc ] initWithCapacity:self.playableCards ];
+            for( NSInteger i = self.playableCards; --i >= 0; )
             {
-                [ temp addObject:card ];
+                Card *card = [ self.deck drawRandomCard ];
+                NSAssert( card, @"Deck does not have enough cards." );
+                [ temp addObject: card ];
             }
-            else
-            {
-                NSLog( @"Deck %@ has fewer than %ld cards remaining.",
-                      deck,
-                      self.playableCards );
-                return nil;
-            }
+            _cards = [ temp copy ];
         }
-        _cards = [ temp copy ];
-    }
+    } );
+
     return _cards;
 }
 
