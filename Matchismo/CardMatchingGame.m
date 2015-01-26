@@ -7,11 +7,7 @@
 //
 
 #import "CardMatchingGame.h"
-
-// FIXME use constants file
-#define MISMATCH_PENALTY 2
-#define MATCH_BONUS 4
-#define FLIP_COST 1
+#import "Constants.h"
 
 @interface CardMatchingGame()
 
@@ -122,7 +118,7 @@ static NSPredicate *chosenCardIdentifier;
                 if( matchScore )
                 {
                     NSLog( @"Found matches for: %@", card );
-                    const int points = matchScore * MATCH_BONUS;
+                    const int points = matchScore * MatchBonus;
                     self.score += points;
                     for( Card *other in otherChosenCards )
                     {
@@ -138,7 +134,7 @@ static NSPredicate *chosenCardIdentifier;
                 else
                 {
                     NSLog( @"No matches found for: %@", card );
-                    self.score -= MISMATCH_PENALTY;
+                    self.score -= MismatchPenalty;
                     for( Card *other in otherChosenCards )
                     {
                         other.chosen = NO;
@@ -147,15 +143,15 @@ static NSPredicate *chosenCardIdentifier;
                         [ NSString stringWithFormat:@"No match between %@ and %@; %d point penalty.",
                                                     card.value,
                                                     [ self displayValues:otherChosenCards ],
-                                                    MISMATCH_PENALTY ];
+                                                    MismatchPenalty ];
                 }
-                self.lastMove = [ [ Move alloc ] initWithCards:otherChosenCards ];
-                // FIXME constant for notification name
-                [ [ NSNotificationCenter defaultCenter ] postNotificationName:@"statusUpdated"
+                self.lastMove =
+                    [ [ Move alloc ] initWithCards:[ otherChosenCards arrayByAddingObject:card ] ];
+                [ [ NSNotificationCenter defaultCenter ] postNotificationName:MoveMadeNotification
                                                                        object:self ];
             }
             card.chosen = YES;
-            self.score -= FLIP_COST;
+            self.score -= FlipCost;
         }
     }
 }

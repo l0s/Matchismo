@@ -289,6 +289,7 @@
     // then
     Move* const lastMove = self.game.lastMove;
     XCTAssertNotNil( lastMove );
+    XCTAssertEqual( lastMove.cards.count, 2 );
     XCTAssertTrue( [ lastMove.cards indexOfObject:x ] >= 0 );
     XCTAssertTrue( [ lastMove.cards indexOfObject:y ] >= 0 );
 }

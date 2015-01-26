@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCard.h"
-
+#import "Constants.h"
 
 @interface ViewController ()
 
@@ -47,13 +47,15 @@
 {
     if( _game )
     {
-        [ [ NSNotificationCenter defaultCenter ] removeObserver:self name:@"statusUpdated" object:_game ];
+        [ [ NSNotificationCenter defaultCenter ] removeObserver:self
+                                                           name:MoveMadeNotification
+                                                         object:_game ];
     }
     if( game )
     {
         [ [ NSNotificationCenter defaultCenter ] addObserver:self
                                                     selector:@selector(updateStatus:)
-                                                        name:@"statusUpdated"
+                                                        name:MoveMadeNotification
                                                       object:game ];
     }
     _game = game;
