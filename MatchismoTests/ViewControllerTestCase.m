@@ -58,6 +58,8 @@
     self.controller.matchTypeSegmentedControl =
         OCMPartialMock( [ [ UISegmentedControl alloc ] init  ] );
     self.controller.historySlider = self.historySlider;
+
+    [ self.controller viewDidLoad ];
 }
 
 - (void)tearDown
@@ -318,7 +320,7 @@
     [ self.controller updateStatus:lastNotification ];
 
     UISlider* const slider = OCMClassMock( [ UISlider class ] );
-    OCMStub( [ slider value ] ).andReturn( 1.0 / 3 );
+    OCMStub( [ slider value ] ).andReturn( 1.0f / 3 );
 
     // when
     [ self.controller showHistoricalStatus:slider ];

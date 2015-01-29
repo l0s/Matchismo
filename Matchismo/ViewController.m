@@ -43,6 +43,8 @@
     self.statusLabel.attributedText =
         [ [ NSAttributedString alloc ] initWithString:InitialStatusMessage ];
     self.moveHistory = [ [ NSMutableArray alloc ] init ];
+    [ self.moveHistory addObject:[ NSNull null ] ];
+    self.historySlider.enabled = NO;
 }
 
 - (void)dealloc
@@ -101,6 +103,9 @@
     self.matchTypeSegmentedControl.enabled = NO; // technically only need to do this the first time
     self.game.cardsToMatch = self.cardsToMatch;
 
+    self.historySlider.value = 1.0f;
+    [ self showHistoricalStatus:self.historySlider ];
+
     [ self updateUi ];
 }
 
@@ -115,13 +120,28 @@
         [ [ NSAttributedString alloc ] initWithString:InitialStatusMessage ];
     self.historySlider.value = 1.0;
     self.moveHistory = [ [ NSMutableArray alloc ] init ];
+    [ self.moveHistory addObject:[ NSNull null ] ];
+    self.historySlider.enabled = NO;
 
     [ self updateUi ];
 }
 
 - (IBAction)showHistoricalStatus:(UISlider *)slider
 {
-    NSAssert(false, @"showHistoricalStatus is not yet implemented");
+    NSLog( @"Seeking to %f%% of the way through", slider.value );
+    NSUInteger const lastMoveIndex = self.moveHistory.count - 1;
+    NSUInteger const index = lroundf( slider.value * lastMoveIndex );
+    NSLog( @"Seeking to state %lu", index );
+    self.statusLabel.enabled = index == lastMoveIndex;
+    if( index > 0 )
+    {
+        [ self updateStatusForMove:self.moveHistory[ index ] ];
+    }
+    else
+    {
+        self.statusLabel.attributedText =
+            [ [ NSAttributedString alloc ] initWithString:InitialStatusMessage ];
+    }
 }
 
 - (void) updateUi
@@ -167,10 +187,17 @@
 
 - (void) updateStatus: ( NSNotification * const )notification
 {
-    Move* const lastMove = ( ( CardMatchingGame * )notification.object ).lastMove;
+    Move* const lastMove =
+        ( ( CardMatchingGame * )notification.object ).lastMove;
+    NSAssert( lastMove, @"lastMove is nil" );
     [ self.moveHistory addObject:lastMove ];
-    self.statusLabel.attributedText =
-        [ self createStatusText:lastMove ];
+    self.historySlider.enabled = YES;
+    [ self updateStatusForMove:lastMove ];
+}
+
+- (void)updateStatusForMove:(Move *)move
+{
+    self.statusLabel.attributedText = [ self createStatusText:move ];
 }
 
 - (NSAttributedString *) createStatusText: (Move *)move
