@@ -36,6 +36,7 @@
 - (void)viewDidLoad
 {
     self.statusLabel.adjustsFontSizeToFitWidth = YES;
+    self.historySlider.value = 1.0; // TODO should this be abstracted?
 }
 
 - (void)dealloc
@@ -106,8 +107,14 @@
     self.matchTypeSegmentedControl.enabled = YES;
     self.statusLabel.attributedText =
         [ [ NSAttributedString alloc ] initWithString:@"Good luck!" ]; // TODO constant?
+    self.historySlider.value = 1.0;
 
     [ self updateUi ];
+}
+
+- (IBAction)showHistoricalStatus:(UISlider *)slider
+{
+    NSAssert(false, @"showHistoricalStatus is not yet implemented");
 }
 
 - (void) updateUi

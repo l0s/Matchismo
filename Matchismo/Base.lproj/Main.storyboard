@@ -220,6 +220,18 @@
                                     <action selector="tapCard:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="c6M-lS-FrA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drg-O0-cre">
+                                <rect key="frame" x="240" y="180" width="48" height="72"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                <state key="normal" backgroundImage="back">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapCard:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xZE-wS-Jjr"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p5o-N3-TVC">
                                 <rect key="frame" x="72" y="260" width="48" height="72"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -365,20 +377,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FhU-lI-1ao">
-                                <rect key="frame" x="16" y="523" width="131" height="21"/>
+                                <rect key="frame" x="16" y="523" width="141" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wgn-bY-Zj0">
-                                <rect key="frame" x="236" y="545" width="123" height="29"/>
+                                <rect key="frame" x="165" y="516" width="123" height="29"/>
                                 <segments>
                                     <segment title="Two"/>
                                     <segment title="Three"/>
                                 </segments>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiS-sm-NVT">
-                                <rect key="frame" x="16" y="581" width="343" height="66"/>
+                                <rect key="frame" x="16" y="552" width="343" height="47"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Good luck!">
                                         <attributes>
@@ -391,7 +403,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ql-dN-xsY">
-                                <rect key="frame" x="16" y="543" width="80" height="30"/>
+                                <rect key="frame" x="296" y="514" width="63" height="30"/>
                                 <state key="normal" title="Deal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -399,18 +411,12 @@
                                     <action selector="startNewGame:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FDV-kr-5eN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drg-O0-cre">
-                                <rect key="frame" x="240" y="180" width="48" height="72"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
-                                <state key="normal" backgroundImage="back">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="rdX-Dk-uko">
+                                <rect key="frame" x="14" y="617" width="347" height="31"/>
                                 <connections>
-                                    <action selector="tapCard:forEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xZE-wS-Jjr"/>
+                                    <action selector="showHistoricalStatus:" destination="vXZ-lx-hvc" eventType="valueChanged" id="ajv-Lv-LQ5"/>
                                 </connections>
-                            </button>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -548,6 +554,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="historySlider" destination="rdX-Dk-uko" id="UrF-8u-X1L"/>
                         <outlet property="matchTypeSegmentedControl" destination="wgn-bY-Zj0" id="Ukm-Ug-qNa"/>
                         <outlet property="scoreLabel" destination="FhU-lI-1ao" id="q9q-wk-pvH"/>
                         <outlet property="statusLabel" destination="iiS-sm-NVT" id="LXu-pB-fNb"/>
