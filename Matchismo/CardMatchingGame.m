@@ -125,11 +125,6 @@ static NSPredicate *chosenCardIdentifier;
                         other.matched = YES;
                     }
                     card.matched = YES;
-                    _lastStatus =
-                        [ NSString stringWithFormat:@"Matched %@ with %@ for %d points.",
-                                                    card.value,
-                                                    [ self displayValues:otherChosenCards ],
-                                                    points ];
                 }
                 else
                 {
@@ -139,11 +134,6 @@ static NSPredicate *chosenCardIdentifier;
                     {
                         other.chosen = NO;
                     }
-                    _lastStatus =
-                        [ NSString stringWithFormat:@"No match between %@ and %@; %d point penalty.",
-                                                    card.value,
-                                                    [ self displayValues:otherChosenCards ],
-                                                    MismatchPenalty ];
                 }
                 self.lastMove =
                     [ [ Move alloc ] initWithCards:[ otherChosenCards arrayByAddingObject:card ] ];
@@ -154,11 +144,6 @@ static NSPredicate *chosenCardIdentifier;
             self.score -= FlipCost;
         }
     }
-}
-
-- (NSString *)displayValues: ( NSArray * )cards // of Card
-{
-    return [ [ cards valueForKey:@"value" ] componentsJoinedByString:@" and " ];
 }
 
 - (NSString *)description

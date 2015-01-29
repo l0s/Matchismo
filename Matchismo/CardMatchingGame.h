@@ -25,8 +25,6 @@
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic) NSUInteger cardsToMatch;
 
-// FIXME this should be a struct with cards, boolean, and points
-@property (strong, nonatomic, readonly) NSString* lastStatus;
 @property (strong, nonatomic, readonly) Move* lastMove;
 
 @end
