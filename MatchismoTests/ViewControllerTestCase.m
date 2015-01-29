@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSNotificationCenter* notificationCenter;
 // TODO can we use an injected Notification Center to avoid revealing this method?
 - (void) updateStatus: ( NSNotification * const )notification;
+- (NSAttributedString *) createStatusText: (Move *)move;
 
 @end
 
@@ -30,6 +31,7 @@
 // actual implementations
 @property (strong, nonatomic) UILabel *scoreLabel;
 @property (strong, nonatomic) UILabel *statusLabel;
+@property (strong, nonatomic) UISlider *historySlider;
 
 @property (strong, nonatomic) ViewController *controller;
 
@@ -46,6 +48,7 @@
 
     self.scoreLabel = [ [ UILabel alloc ] init ];
     self.statusLabel = [ [ UILabel alloc ] init ];
+    self.historySlider = [ [ UISlider alloc ] init ];
 
     self.controller = [ [ ViewController alloc ] init ];
     self.controller.notificationCenter = self.notificationCenter;
@@ -54,6 +57,7 @@
     self.controller.game = self.game;
     self.controller.matchTypeSegmentedControl =
         OCMPartialMock( [ [ UISegmentedControl alloc ] init  ] );
+    self.controller.historySlider = self.historySlider;
 }
 
 - (void)tearDown
@@ -243,6 +247,95 @@
     // TODO define business logic for status
     XCTAssertNotEqualObjects( self.controller.statusLabel.attributedText.string,
                               initialStatus );
+}
+
+- (void)testShowHistoricalStatusRewindsToBeginning
+{
+    // given
+    UISlider* const slider = OCMClassMock( [ UISlider class ] );
+    Move* const firstMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ firstMove matchFound ] ).andReturn( YES );
+    OCMStub( [ firstMove moveScore ] ).andReturn( 17 );
+    Move* const lastMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ lastMove matchFound ] ).andReturn( NO );
+    OCMStub( [ lastMove moveScore ] ).andReturn( 13 );
+
+    // this is overly verbose because the mocking framework does not support
+    // multiple invocations that return different values. Ideally we would want
+    // OCMStub( [ self.game lastMove ] ).andReturn( firstMove ).andReturn( lastMove )
+    CardMatchingGame* const firstGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ firstGameState lastMove ] ).andReturn( firstMove );
+    CardMatchingGame* const lastGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ lastGameState lastMove ] ).andReturn( lastMove );
+
+    NSNotification* const firstNotification =
+        [ NSNotification notificationWithName:@"notification" object:firstGameState ];
+    NSNotification* const lastNotification =
+        [ NSNotification notificationWithName:@"notification" object:lastGameState ];
+
+    [ self.controller updateStatus:firstNotification ];
+    [ self.controller updateStatus:lastNotification ];
+
+    // when
+    [ self.controller showHistoricalStatus:slider ];
+
+    // then
+    XCTAssertEqualObjects( self.controller.statusLabel.attributedText.string,
+                           @"Good luck!" ); // FIXME constant!
+}
+
+- (void)testShowHistoricalStatusRewindsToFirstThird
+{
+    // given
+    UISlider* const slider = OCMClassMock( [ UISlider class ] );
+    OCMStub( [ slider value ] ).andReturn( 1.0 / 3 );
+
+    Move* const firstMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ firstMove matchFound ] ).andReturn( YES );
+    OCMStub( [ firstMove moveScore ] ).andReturn( 17 );
+    Move* const secondMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ secondMove matchFound ] ).andReturn( NO );
+    OCMStub( [ secondMove moveScore ] ).andReturn( 11 );
+    Move* const lastMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ lastMove matchFound ] ).andReturn( YES );
+    OCMStub( [ lastMove moveScore ] ).andReturn( 13 );
+
+    CardMatchingGame* const firstGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ firstGameState lastMove ] ).andReturn( firstMove );
+    CardMatchingGame* const secondGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ secondGameState lastMove ] ).andReturn( secondMove );
+    CardMatchingGame* const lastGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ lastGameState lastMove ] ).andReturn( lastMove );
+
+    NSNotification* const firstNotification =
+        [ NSNotification notificationWithName:@"notification" object:firstGameState ];
+    NSNotification* const secondNotification =
+        [ NSNotification notificationWithName:@"notification" object:secondGameState ];
+    NSNotification* const lastNotification =
+        [ NSNotification notificationWithName:@"notification" object:lastGameState ];
+    
+    [ self.controller updateStatus:firstNotification ];
+    [ self.controller updateStatus:secondNotification ];
+    [ self.controller updateStatus:lastNotification ];
+
+    // when
+    [ self.controller showHistoricalStatus:slider ];
+
+    // then
+    XCTAssertEqualObjects( self.controller.statusLabel.attributedText,
+                          [ self.controller createStatusText:firstMove ] );
+}
+
+- (void)testNewGameResetsSlider
+{
+    // given
+    self.controller.historySlider.value = 1.0 / 4;
+
+    // when
+    [ self.controller startNewGame:nil forEvent:nil ];
+
+    // then
+    XCTAssertEqual( self.controller.historySlider.value, 1.0 );
 }
 
 @end
