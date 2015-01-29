@@ -17,5 +17,7 @@ FOUNDATION_EXPORT int const MatchBonus;
 FOUNDATION_EXPORT int const FlipCost;
 /// Notification sent when a valid group of cards are chosen.
 FOUNDATION_EXPORT NSString* const MoveMadeNotification;
+/// Initial status message on new game
+FOUNDATION_EXPORT NSString* const InitialStatusMessage;
 
 #endif

@@ -16,6 +16,7 @@
 @interface ViewController ()
 
 @property (strong, nonatomic) NSNotificationCenter* notificationCenter;
+@property (strong, nonatomic) NSMutableArray* moveHistory; // of Move
 
 @end
 
@@ -36,7 +37,12 @@
 - (void)viewDidLoad
 {
     self.statusLabel.adjustsFontSizeToFitWidth = YES;
-    self.historySlider.value = 1.0; // TODO should this be abstracted?
+
+    // TODO abstract these
+    self.historySlider.value = 1.0;
+    self.statusLabel.attributedText =
+        [ [ NSAttributedString alloc ] initWithString:InitialStatusMessage ];
+    self.moveHistory = [ [ NSMutableArray alloc ] init ];
 }
 
 - (void)dealloc
@@ -106,8 +112,9 @@
 
     self.matchTypeSegmentedControl.enabled = YES;
     self.statusLabel.attributedText =
-        [ [ NSAttributedString alloc ] initWithString:@"Good luck!" ]; // TODO constant?
+        [ [ NSAttributedString alloc ] initWithString:InitialStatusMessage ];
     self.historySlider.value = 1.0;
+    self.moveHistory = [ [ NSMutableArray alloc ] init ];
 
     [ self updateUi ];
 }
@@ -160,8 +167,10 @@
 
 - (void) updateStatus: ( NSNotification * const )notification
 {
+    Move* const lastMove = ( ( CardMatchingGame * )notification.object ).lastMove;
+    [ self.moveHistory addObject:lastMove ];
     self.statusLabel.attributedText =
-        [ self createStatusText:( ( CardMatchingGame * )notification.object ).lastMove ];
+        [ self createStatusText:lastMove ];
 }
 
 - (NSAttributedString *) createStatusText: (Move *)move

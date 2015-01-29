@@ -252,7 +252,6 @@
 - (void)testShowHistoricalStatusRewindsToBeginning
 {
     // given
-    UISlider* const slider = OCMClassMock( [ UISlider class ] );
     Move* const firstMove = OCMClassMock( [ Move class ] );
     OCMStub( [ firstMove matchFound ] ).andReturn( YES );
     OCMStub( [ firstMove moveScore ] ).andReturn( 17 );
@@ -276,6 +275,9 @@
     [ self.controller updateStatus:firstNotification ];
     [ self.controller updateStatus:lastNotification ];
 
+    UISlider* const slider = OCMClassMock( [ UISlider class ] );
+    OCMStub( [ slider value ] ).andReturn( 0.0 );
+
     // when
     [ self.controller showHistoricalStatus:slider ];
 
@@ -287,9 +289,6 @@
 - (void)testShowHistoricalStatusRewindsToFirstThird
 {
     // given
-    UISlider* const slider = OCMClassMock( [ UISlider class ] );
-    OCMStub( [ slider value ] ).andReturn( 1.0 / 3 );
-
     Move* const firstMove = OCMClassMock( [ Move class ] );
     OCMStub( [ firstMove matchFound ] ).andReturn( YES );
     OCMStub( [ firstMove moveScore ] ).andReturn( 17 );
@@ -318,6 +317,9 @@
     [ self.controller updateStatus:secondNotification ];
     [ self.controller updateStatus:lastNotification ];
 
+    UISlider* const slider = OCMClassMock( [ UISlider class ] );
+    OCMStub( [ slider value ] ).andReturn( 1.0 / 3 );
+
     // when
     [ self.controller showHistoricalStatus:slider ];
 
@@ -329,12 +331,48 @@
 - (void)testNewGameResetsSlider
 {
     // given
-    self.controller.historySlider.value = 1.0 / 4;
+    self.controller.historySlider.value = 0.25;
 
     // when
     [ self.controller startNewGame:nil forEvent:nil ];
 
     // then
+    XCTAssertEqual( self.controller.historySlider.value, 1.0 );
+}
+
+- (void)testTapCardResetsSlider
+{
+    // given
+    Move* const firstMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ firstMove matchFound ] ).andReturn( YES );
+    OCMStub( [ firstMove moveScore ] ).andReturn( 17 );
+    Move* const lastMove = OCMClassMock( [ Move class ] );
+    OCMStub( [ lastMove matchFound ] ).andReturn( NO );
+    OCMStub( [ lastMove moveScore ] ).andReturn( 13 );
+
+    CardMatchingGame* const firstGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ firstGameState lastMove ] ).andReturn( firstMove );
+    CardMatchingGame* const lastGameState = OCMClassMock( [ CardMatchingGame class ] );
+    OCMStub( [ lastGameState lastMove ] ).andReturn( lastMove );
+
+    NSNotification* const firstNotification =
+        [ NSNotification notificationWithName:@"notification" object:firstGameState ];
+    NSNotification* const lastNotification =
+        [ NSNotification notificationWithName:@"notification" object:lastGameState ];
+    
+    [ self.controller updateStatus:firstNotification ];
+    [ self.controller updateStatus:lastNotification ];
+
+    self.controller.historySlider.value = 0.5;
+    self.controller.statusLabel.attributedText =
+        [ [ NSAttributedString alloc ] initWithString:@"historical status" ];
+    self.controller.statusLabel.enabled = NO;
+
+    // when
+    [ self.controller tapCard:nil forEvent:nil ];
+
+    // then
+    XCTAssertTrue( self.controller.statusLabel.enabled );
     XCTAssertEqual( self.controller.historySlider.value, 1.0 );
 }
 

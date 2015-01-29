@@ -13,3 +13,5 @@ int const MatchBonus = 4;
 int const FlipCost = 1;
 
 NSString* const MoveMadeNotification = @"moveMade";
+
+NSString* const InitialStatusMessage = @"Good luck!";
