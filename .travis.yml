@@ -1,3 +1,4 @@
 language: objective-c
 xcode_project: Matchismo.xcodeproj
 xcode_scheme: MatchismoTests
+xcode_sdk: iphonesimulator8.0
