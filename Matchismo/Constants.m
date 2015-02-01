@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-int const MismatchPenalty = 2;
+int const MismatchPenalty = -2;
 int const MatchBonus = 4;
 int const FlipCost = 1;
 

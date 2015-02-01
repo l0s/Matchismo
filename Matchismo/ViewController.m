@@ -128,7 +128,7 @@
 
 - (IBAction)showHistoricalStatus:(UISlider *)slider
 {
-    NSLog( @"Seeking to %f%% of the way through", slider.value );
+    NSLog( @"Seeking to %f%% of the way through", slider.value * 100 );
     NSUInteger const lastMoveIndex = self.moveHistory.count - 1;
     NSUInteger const index = lroundf( slider.value * lastMoveIndex );
     NSLog( @"Seeking to state %lu", ( unsigned long )index );

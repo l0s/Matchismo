@@ -46,7 +46,9 @@ static NSPredicate *chosenCardIdentifier;
 - (instancetype) initWithPlayableCards: (NSUInteger) playableCards
                                andDeck: (Deck *)deck
 {
-    return [ self initWithNotificationCenter:[ NSNotificationCenter defaultCenter ] andPlayableCards:playableCards andDeck:deck ];
+    return [ self initWithNotificationCenter:[ NSNotificationCenter defaultCenter ]
+                            andPlayableCards:playableCards
+                                     andDeck:deck ];
 }
 
 - (instancetype) initWithNotificationCenter:(NSNotificationCenter *)notificationCenter
@@ -65,7 +67,7 @@ static NSPredicate *chosenCardIdentifier;
         _deck = deck;
         _playableCards = playableCards;
         _cardSettingQueue =
-            dispatch_queue_create( "com.macasaet.matchismo.model.CardMatchingGame.cardSettingQueue",
+            dispatch_queue_create( "com.macasaet.ios.cs193p.Matchismo.Model.CardMatchingGame.cardSettingQueue",
                                    DISPATCH_QUEUE_SERIAL );
     }
     return self;
@@ -115,12 +117,11 @@ static NSPredicate *chosenCardIdentifier;
             // if the player has chosen enough cards, then calculate match score
             if( otherChosenCards.count >= self.cardsToMatch - 1 )
             {
-                const int matchScore = [ card match:otherChosenCards ];
-                if( matchScore )
+                self.lastMove =
+                    [ [ Move alloc ] initWithCards:[ otherChosenCards arrayByAddingObject:card ] ];
+                self.score += self.lastMove.moveScore;
+                if( self.lastMove.matchFound )
                 {
-                    NSLog( @"Found matches for: %@", card );
-                    const int points = matchScore * MatchBonus;
-                    self.score += points;
                     for( Card *other in otherChosenCards )
                     {
                         other.matched = YES;
@@ -129,15 +130,11 @@ static NSPredicate *chosenCardIdentifier;
                 }
                 else
                 {
-                    NSLog( @"No matches found for: %@", card );
-                    self.score -= MismatchPenalty;
                     for( Card *other in otherChosenCards )
                     {
                         other.chosen = NO;
                     }
                 }
-                self.lastMove =
-                    [ [ Move alloc ] initWithCards:[ otherChosenCards arrayByAddingObject:card ] ];
                 [ self.notificationCenter postNotificationName:MoveMadeNotification
                                                         object:self ];
             }
