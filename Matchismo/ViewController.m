@@ -131,7 +131,7 @@
     NSLog( @"Seeking to %f%% of the way through", slider.value );
     NSUInteger const lastMoveIndex = self.moveHistory.count - 1;
     NSUInteger const index = lroundf( slider.value * lastMoveIndex );
-    NSLog( @"Seeking to state %lu", index );
+    NSLog( @"Seeking to state %lu", ( unsigned long )index );
     self.statusLabel.enabled = index == lastMoveIndex;
     if( index > 0 )
     {
@@ -153,7 +153,7 @@
         [ self updateButton:button forCard:card ];
     }
     self.scoreLabel.text =
-        [ NSString stringWithFormat:@"Score: %ld", self.game.score ];
+        [ NSString stringWithFormat:@"Score: %ld", ( long )self.game.score ];
 }
 
 - (void) updateButton: (UIButton *) button forCard: (Card *) card

@@ -58,7 +58,7 @@
     int maxScore = 0;
     for( NSUInteger i = 0; i < self.cards.count; i++ )
     {
-        NSLog( @"Checking for matches against card %lu", i );
+        NSLog( @"Checking for matches against card %lu", ( unsigned long )i );
         Card* const card = self.cards[ i ];
         NSArray* const left =
             [ self.cards subarrayWithRange:NSMakeRange( 0, i ) ];

@@ -59,7 +59,8 @@ static NSPredicate *chosenCardIdentifier;
         NSAssert( notificationCenter != nil, @"notificationCenter cannot be nil" );
         NSAssert( deck != nil, @"deck cannot be nil" );
         NSAssert( playableCards <= deck.numCards,
-                 @"Deck %@ has fewer than %ld cards.", deck, playableCards );
+                 @"Deck %@ has fewer than %ld cards.", deck,
+                 ( unsigned long )playableCards );
         _notificationCenter = notificationCenter;
         _deck = deck;
         _playableCards = playableCards;
@@ -100,7 +101,7 @@ static NSPredicate *chosenCardIdentifier;
 - (void) chooseCardAtIndex:(NSUInteger)index
 {
     Card *const card = [ self cardAtIndex:index ];
-    NSLog( @"Choosing card: %@ at index %lu", card, index );
+    NSLog( @"Choosing card: %@ at index %lu", card, ( unsigned long )index );
     if( !card.isMatched )
     {
         if( card.isChosen )
@@ -149,8 +150,8 @@ static NSPredicate *chosenCardIdentifier;
 - (NSString *)description
 {
     return [ NSString stringWithFormat:@"( CardMatchingGame: %li, %li )",
-             self.playableCards,
-             self.score ];
+             ( long )self.playableCards,
+             ( long )self.score ];
 }
 
 @end

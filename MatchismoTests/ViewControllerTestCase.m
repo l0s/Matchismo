@@ -105,7 +105,7 @@
 
     OCMStub( [ self.game score ] ).andReturn( 512 );
     self.controller.scoreLabel.text =
-        [ NSString stringWithFormat:@"Score: %ld", self.game.score ];
+        [ NSString stringWithFormat:@"Score: %ld", ( long )self.game.score ];
 
     // when
     [ self.controller startNewGame:button forEvent:event ];
